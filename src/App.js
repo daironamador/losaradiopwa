@@ -52,7 +52,7 @@ const RadioPlayer = () => {
       <h1 className="text-2xl mb-2 z-10">LOSA Radio - La más completa</h1>
       <h2 className="text-xl mb-4 z-10">{currentSong.title}</h2>
       <ReactHowler
-        src='http://65.108.98.93:7528/stream'
+        src='https://cast5.asurahosting.com/proxy/losarad2/stream'
         playing={playing}
         html5={true}
         onLoad={() => console.log('Stream loaded successfully')}
