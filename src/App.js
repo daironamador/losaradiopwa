@@ -4,10 +4,10 @@ import ReactHowler from 'react-howler';
 import { FaPlay, FaPause } from 'react-icons/fa';
 
 const RadioPlayer = () => {
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false); // Inicialmente no se reproduce
   const [currentSong, setCurrentSong] = useState({
     title: 'Loading...',
-    image: '/losaimg.jpeg', // Use correct path
+    image: '/losaimg.jpeg',
   });
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [isInstalled, setIsInstalled] = useState(false);
@@ -20,10 +20,10 @@ const RadioPlayer = () => {
         );
         const data = await response.json();
         const trackData = data.data[0].track;
-        
+
         setCurrentSong({
           title: `${trackData.artist} - ${trackData.title}`,
-          image: '/losaimg.jpeg', // Use correct path
+          image: '/losaimg.jpeg',
         });
       } catch (error) {
         console.error('Error fetching current song:', error);
@@ -57,6 +57,15 @@ const RadioPlayer = () => {
     };
   }, []);
 
+  useEffect(() => {
+    // Automatically play the music after 3 seconds
+    const timer = setTimeout(() => {
+      setPlaying(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const handleInstallClick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -68,6 +77,16 @@ const RadioPlayer = () => {
       } else {
         console.log('User dismissed the install prompt');
       }
+    }
+  };
+
+  // Function to handle background notifications
+  const sendNotification = () => {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification('Radio Player', {
+        body: 'You are listening to LOSA Radio!',
+        icon: '/losaimg.jpeg'
+      });
     }
   };
 
@@ -83,7 +102,7 @@ const RadioPlayer = () => {
         <h1 className="text-2xl mb-2">LOSA Radio - La más completa</h1>
         <h2 className="text-xl mb-4">{currentSong.title}</h2>
         <ReactHowler
-          src="http://65.108.98.93:7528/stream"
+          src="https://cast5.asurahosting.com/proxy/losarad2/stream"
           playing={playing}
           html5={true}
           onLoad={() => console.log('Stream loaded successfully')}
