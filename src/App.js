@@ -80,16 +80,6 @@ const RadioPlayer = () => {
     }
   };
 
-  // Function to handle background notifications
-  const sendNotification = () => {
-    if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('Radio Player', {
-        body: 'You are listening to LOSA Radio!',
-        icon: '/losaimg.jpeg'
-      });
-    }
-  };
-
   return (
     <div className="flex flex-col items-center justify-center h-screen text-white relative">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/bglosa.png)' }}></div>
@@ -117,7 +107,7 @@ const RadioPlayer = () => {
         >
           {playing ? <FaPause className="text-white text-2xl" /> : <FaPlay className="text-white text-2xl" />}
         </button>
-        {!isInstalled && (
+        {!isInstalled && deferredPrompt && (
           <button
             className="bg-green-500 px-4 py-2 rounded mt-4"
             onClick={handleInstallClick}
