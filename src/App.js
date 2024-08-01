@@ -7,8 +7,10 @@ const RadioPlayer = () => {
   const [playing, setPlaying] = useState(true);
   const [currentSong, setCurrentSong] = useState({
     title: 'Loading...',
-    image: '../public/losaimg.jpeg', // This will always be used
+    image: '/losaimg.jpeg', // Use correct path
   });
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
     const fetchCurrentSong = async () => {
@@ -21,7 +23,7 @@ const RadioPlayer = () => {
         
         setCurrentSong({
           title: `${trackData.artist} - ${trackData.title}`,
-          image: '../public/losaimg.jpeg', // This will always be used
+          image: '/losaimg.jpeg', // Use correct path
         });
       } catch (error) {
         console.error('Error fetching current song:', error);
@@ -33,8 +35,44 @@ const RadioPlayer = () => {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const beforeInstallPromptHandler = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', beforeInstallPromptHandler);
+
+    window.addEventListener('appinstalled', () => {
+      setIsInstalled(true);
+      setDeferredPrompt(null);
+    });
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', beforeInstallPromptHandler);
+      window.removeEventListener('appinstalled', () => {
+        setIsInstalled(true);
+        setDeferredPrompt(null);
+      });
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        console.log('User accepted the install prompt');
+        setIsInstalled(true);
+        setDeferredPrompt(null);
+      } else {
+        console.log('User dismissed the install prompt');
+      }
+    }
+  };
+
   return (
-    <div className="flex flex-col items-center justify-center h-screen text-white homebg">
+    <div className="flex flex-col items-center justify-center h-screen text-white relative">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/bglosa.png)' }}></div>
       <div className="relative z-10 flex flex-col items-center justify-center h-full">
         <img
@@ -55,12 +93,19 @@ const RadioPlayer = () => {
           onError={(error) => console.error('Stream error:', error)}
         />
         <button
-          className="bg-blue-500 px-4 py-2 rounded flex items-center"
+          className="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center"
           onClick={() => setPlaying(!playing)}
         >
-          {playing ? <FaPause /> : <FaPlay />}
-          <span className="ml-2">{playing ? 'Pause' : 'Play'}</span>
+          {playing ? <FaPause className="text-white text-2xl" /> : <FaPlay className="text-white text-2xl" />}
         </button>
+        {!isInstalled && (
+          <button
+            className="bg-green-500 px-4 py-2 rounded mt-4"
+            onClick={handleInstallClick}
+          >
+            Install App
+          </button>
+        )}
       </div>
     </div>
   );
