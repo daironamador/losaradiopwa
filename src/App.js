@@ -84,6 +84,7 @@ const RadioPlayer = () => {
     <div className="flex flex-col items-center justify-center h-screen text-white relative">
       <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/bglosa.png)' }}></div>
       <div className="relative z-10 flex flex-col items-center justify-center h-full">
+        <h1 className="text-4xl font-bold mb-4">LOSA Radio</h1>
         <img
           src={currentSong.image}
           alt="Current song"
