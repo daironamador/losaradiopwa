@@ -1,54 +1,36 @@
-.homebg {
-  background: url('https://losaradio.com/appadmin/bglosa.png') no-repeat center center fixed;
-  background-size: cover;
+/* Cleaned up App.css */
+/* Most styles are handled by Tailwind in App.js and index.css */
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.splash-screen {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background: #000;
-  color: #fff;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.splash-logo {
-  width: 100px;
-  height: 100px;
+.animate-pulse-slow {
+  animation: pulseSlow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.loader {
-  border: 4px solid #f3f3f3; /* Light grey */
-  border-top: 4px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  animation: spin 2s linear infinite;
-  margin-top: 16px;
-}
+@keyframes pulseSlow {
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.2);
+  }
 
-.fixed {
-  position: fixed;
-}
-
-.bottom-4 {
-  bottom: 1rem;
-}
-
-.left-12 {
-  left: 50%;
-}
-
-.transform {
-  transform: translate(-50%, 0);
-}
-
-.translate-x-12 {
-  transform: translateX(-50%);
+  50% {
+    opacity: .9;
+    box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+  }
 }
