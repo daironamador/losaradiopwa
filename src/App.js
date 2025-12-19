@@ -1,7 +1,6 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import ReactHowler from 'react-howler';
-import { FaPlay, FaPause, FaDownload } from 'react-icons/fa';
+import { FaPlay, FaPause, FaDownload, FaBars, FaTimes, FaGlobe, FaInfoCircle, FaHome } from 'react-icons/fa';
 
 const RadioPlayer = () => {
   const [playing, setPlaying] = useState(false);
@@ -74,6 +73,8 @@ const RadioPlayer = () => {
     }
   };
 
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with Overlay */}
@@ -82,6 +83,52 @@ const RadioPlayer = () => {
         style={{ backgroundImage: 'url(/bglosa.png)' }}
       ></div>
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 z-0"></div>
+
+      {/* Menu Button */}
+      <button
+        className="absolute top-6 left-6 z-50 p-2 text-white/90 hover:text-white transition-colors"
+        onClick={() => setMenuOpen(true)}
+      >
+        <FaBars className="text-2xl" />
+      </button>
+
+      {/* Full Screen Menu */}
+      <div className={`fixed inset-0 z-50 bg-black/90 backdrop-blur-xl transition-opacity duration-300 flex flex-col items-center justify-center ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+        <button
+          className="absolute top-6 right-6 p-2 text-white/90 hover:text-white transition-colors"
+          onClick={() => setMenuOpen(false)}
+        >
+          <FaTimes className="text-3xl" />
+        </button>
+
+        <div className="flex flex-col gap-8 text-center bg-white/5 p-12 rounded-3xl border border-white/10 shadow-2xl">
+          <h2 className="text-3xl font-bold text-white mb-4">Menú</h2>
+
+          <button
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center gap-4 text-xl text-white/80 hover:text-white hover:scale-105 transition-all text-left w-full pl-8"
+          >
+            <FaHome className="text-pink-500" /> Inicio
+          </button>
+
+          <div className="flex items-center gap-4 text-xl text-white/80 transition-all text-left w-full pl-8">
+            <FaInfoCircle className="text-blue-400" />
+            <div>
+              <span className="block font-semibold">Sobre la Estación</span>
+              <span className="text-sm text-white/50 block">LOSA Radio - La más completa</span>
+            </div>
+          </div>
+
+          <a
+            href="https://losaradio.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-4 text-xl text-white/80 hover:text-white hover:scale-105 transition-all text-left w-full pl-8"
+          >
+            <FaGlobe className="text-green-400" /> Noticias / Sitio Web
+          </a>
+        </div>
+      </div>
 
       {/* Main Glass Card */}
       <div className="relative z-10 w-full max-w-md p-8 glass-panel rounded-3xl flex flex-col items-center text-center mx-4 animate-fade-in-up">
@@ -137,7 +184,7 @@ const RadioPlayer = () => {
       </div>
 
       {/* Footer / Branding */}
-      <div className="absolute bottom-6 text-white/30 text-xs font-light z-10">
+      <div className="absolute bottom-6 text-white/30 text-xs font-light z-10 w-full text-center">
         Streaming Powered by losaradio x Dairon Amador
       </div>
     </div>
