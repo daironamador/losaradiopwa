@@ -62,6 +62,14 @@ const RadioPlayer = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    if (playing) {
+      document.title = `${currentSong.title} - ${currentSong.artist}`;
+    } else {
+      document.title = 'LOSA Radio';
+    }
+  }, [playing, currentSong]);
+
   const handleInstallClick = async () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
