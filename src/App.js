@@ -166,7 +166,7 @@ const RadioPlayer = () => {
         {/* Controls */}
         <div className="mb-8 flex flex-col items-center">
           <ReactHowler
-            src="https://morcast.caster.fm:16055/8tUQN?token=37a504f84e01560ded3fb033296116e3"
+            src="https://stream-286.surfernetwork.com/801sagcgdwzuv"
             playing={playing}
             html5={true}
           />
