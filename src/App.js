@@ -166,7 +166,7 @@ const RadioPlayer = () => {
         {/* Controls */}
         <div className="mb-8 flex flex-col items-center">
           <ReactHowler
-            src="https://stream-286.surfernetwork.com/801sagcgdwzuv"
+            src="https://losaradio.dpdns.org/listen/losa_radio/radio.mp3"
             playing={playing}
             html5={true}
           />
