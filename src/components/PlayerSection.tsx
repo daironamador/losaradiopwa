@@ -194,10 +194,18 @@ export default function PlayerSection() {
     >
       <audio ref={audioRef} preload="none" crossOrigin="anonymous" playsInline />
 
-      {/* Glassmorphism backdrop — softly blurred album art / logo. */}
+      {/* Glassmorphism backdrop — softly blurred album art / logo.
+          Masked to fade out around the circular player so the lower half
+          (title, now playing, controls) sits on the clean page background. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+        style={{
+          maskImage:
+            "linear-gradient(to bottom, #000 0%, #000 42%, transparent 54%)",
+          WebkitMaskImage:
+            "linear-gradient(to bottom, #000 0%, #000 42%, transparent 54%)",
+        }}
       >
         <Image
           key={cover}
