@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RinconFM - Offline</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f9f9ff;
+      color: #111c2d;
+      font-family: 'Sora', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+    }
+    .container { padding: 2rem; }
+    h1 { color: #31536c; font-size: 2rem; margin-bottom: 1rem; font-weight: 700; }
+    p { font-size: 1rem; line-height: 1.6; color: #42474d; }
+    .retry {
+      margin-top: 2rem;
+      padding: 0.75rem 2rem;
+      background: #31536c;
+      color: white;
+      border: none;
+      border-radius: 9999px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+    }
+    .retry:hover { background: #284a63; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RinconFM</h1>
+    <p>Sin conexión a internet.<br>Verifica tu conexión y vuelve a intentar.</p>
+    <button class="retry" onclick="location.reload()">Reintentar</button>
+  </div>
+</body>
+</html>
