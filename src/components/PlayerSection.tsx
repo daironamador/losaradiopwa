@@ -158,13 +158,16 @@ export default function PlayerSection() {
   const stationName = STATION.name;
   const genre = metadata.genre?.trim() || "";
   const hasSong = isPlaying && (songTitle.length > 0 || !!metadata.text);
-  const artwork = metadata.art?.trim() || STATION.logo;
+  // Show the real album cover while playing; fall back to the station logo
+  // when the track has no embedded art (e.g. most AutoDJ tracks).
+  const albumArt = metadata.art?.trim() || "";
+  const cover = isPlaying && albumArt ? albumArt : STATION.logo;
 
   // Lock-screen / background media controls.
   useMediaSession({
     title: songTitle || metadata.text?.trim() || STATION.liveName,
     artist: songArtist || STATION.name,
-    artwork,
+    artwork: cover,
     isPlaying,
     onPlay: play,
     onPause: pause,
@@ -191,24 +194,25 @@ export default function PlayerSection() {
     >
       <audio ref={audioRef} preload="none" crossOrigin="anonymous" playsInline />
 
-      {/* Glassmorphism backdrop — heavily blurred logo, fixed for every song. */}
+      {/* Glassmorphism backdrop — softly blurred album art / logo. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
       >
         <Image
-          src={STATION.logo}
+          key={cover}
+          src={cover}
           alt=""
           fill
           priority
           sizes="100vw"
-          className="object-cover scale-150 blur-3xl"
+          className="object-cover scale-110 blur-xl transition-all duration-700"
         />
-        {/* Soft brand glow so the frosted glass reads even behind the
-            light logo. */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#3b5bdb]/25 via-transparent to-[#7aa8d8]/20" />
-        {/* Frosted veil — clearer glass at the top, whiter toward the controls. */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/25 via-white/55 to-white/85" />
+        {/* Soft brand glow so the frosted glass reads even behind the art. */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3b5bdb]/20 via-transparent to-[#7aa8d8]/15" />
+        {/* Frosted veil — lighter so the album art stays recognizable, still
+            white enough toward the controls for legible text. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/15 via-white/45 to-white/82" />
       </div>
 
       {/* ── Top nav ─────────────────────────────────────── */}
@@ -285,12 +289,13 @@ export default function PlayerSection() {
             />
           </svg>
 
-          {/* Station logo — always the brand, never the album cover */}
+          {/* Album cover while playing, station logo otherwise */}
           <div className="absolute rounded-full overflow-hidden shadow-[0_18px_40px_-14px_rgba(59,91,219,0.45)]"
             style={{ top: 25, left: 25, width: 190, height: 190 }}
           >
             <Image
-              src={STATION.logo}
+              key={cover}
+              src={cover}
               alt={STATION.name}
               fill
               className="object-cover"
